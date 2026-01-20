@@ -1,0 +1,12 @@
+Metadata-Version: 2.4
+Name: topsis_ananya_102303160
+Version: 1.0.7
+Summary: A Python implementation of TOPSIS for multiple-criteria decision making.
+Author: Ananya
+Description-Content-Type: text/markdown
+Requires-Dist: pandas
+Requires-Dist: numpy
+Dynamic: author
+Dynamic: description-content-type
+Dynamic: requires-dist
+Dynamic: summary

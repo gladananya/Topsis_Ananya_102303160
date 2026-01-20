@@ -1,0 +1,2 @@
+[console_scripts]
+topsis-ananya = topsis_ananya.topsis:run
