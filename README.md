@@ -1,49 +1,47 @@
 # TOPSIS Implementation in Python
 **Author:** Ananya  
-**Roll No:** 102303160
+**Roll No:** 102303160  
 
-This repository contains a Python implementation of the **TOPSIS (Technique for Order Preference by Similarity to Ideal Solution)** algorithm for multi-criteria decision-making. The project supports both a CLI tool and a simple web service interface to rank alternatives based on criteria, weights, and impacts.
-
----
-
-## What is TOPSIS?
-
-TOPSIS is a quantitative decision-making approach that ranks options by comparing how close they are to:
-
-✔ the **ideal best** solution  
-✖ and how far they are from the **ideal worst**
-
-This method is widely used in:
-
-- product evaluation
-- performance assessment
-- engineering and management decisions
-- multi-criteria analysis
+This repository provides a Python-based implementation of the TOPSIS (Technique for Order Preference by Similarity to Ideal Solution) method for multi-criteria decision making.  
+It includes both a command-line interface and a simple Flask web API for ranking alternatives.
 
 ---
 
-## How the Method Works (Brief Overview)
+##  What is TOPSIS?
 
-The workflow of the algorithm is:
+TOPSIS ranks alternatives by comparing their distance from:
 
-1. Read data from a CSV decision matrix
-2. Normalize values so different criteria are comparable
-3. Apply user-defined weights to each criterion
-4. Determine the ideal best and ideal worst values based on impacts
-5. Compute Euclidean distance from both ideal solutions
-6. Calculate the TOPSIS score
-7. Rank alternatives based on the score (higher is better)
+- **Ideal Best** → highest desirable value
+- **Ideal Worst** → least desirable value
+
+Used in:
+
+- product comparison
+- performance evaluation
+- decision making with multiple criteria
 
 ---
 
-## Project Structure
+##  Method Steps
+
+1. Read decision matrix from CSV
+2. Normalize criteria values
+3. Apply weights
+4. Determine ideal best & worst based on impacts
+5. Compute Euclidean distances
+6. Calculate TOPSIS score
+7. Rank alternatives
+
+---
+
+##  Project Structure
 
 Topsis_Ananya_102303160/
-├── topsis_ananya_102303160/ # Core TOPSIS implementation (Python package)
-├── topsis-web-service/ # Flask web API interface
+├── topsis_ananya_102303160/ # Core TOPSIS logic (Python package)
+├── topsis-web-service/ # Flask API for web-based ranking
 │ └── app.py
-├── data.csv # Sample input dataset
-├── result.csv # Sample output result file
+├── data.csv # Sample input data
+├── result.csv # Sample output ranking
 ├── setup.py
 ├── requirements.txt
 └── README.md
@@ -51,91 +49,100 @@ Topsis_Ananya_102303160/
 
 ---
 
-## Input Format
+##  Input Format
 
-The input CSV file must contain:
+The input CSV must include:
 
-- **Column 1:** names of alternatives (e.g., models, products, candidates)
-- **Remaining columns:** numeric values corresponding to criteria
+- **First column:** alternative names
+- **Remaining columns:** numeric criteria values
 
-Example header:
+Example:
 
-Model, Price, Performance, Weight
+| Model | Price | Performance | Weight |
+|-------|-------|-------------|--------|
+| M1    | 0.61  | 0.37        | 6.9    |
+| M2    | 0.68  | 0.46        | 4.5    |
+| M3    | 0.74  | 0.55        | 3.8    |
 
-Weights and impacts are provided separately as comma-separated strings:
+Weights & impacts are provided as comma-separated lists:
 
 Weights: 1,2,3
 Impacts: +,-,+
 
 
-Where:
+---
 
-- `+` indicates beneficial (higher is better)
-- `-` indicates non-beneficial (lower is better)
+##  Example
+
+### **Input**
+
+| Fund Name | P1 | P2 | P3 | P4 | P5 |
+|---|---|---|---|---|---|
+| M1 | 0.61 | 0.37 | 6.9 | 60.7 | 17.15 |
+| M2 | 0.68 | 0.46 | 4.5 | 66.1 | 17.94 |
+| M3 | 0.74 | 0.55 | 3.8 | 59.6 | 16.17 |
+| M4 | 0.71 | 0.50 | 6.1 | 44.2 | 12.88 |
+| M5 | 0.80 | 0.64 | 4.8 | 31.2 | 9.36 |
+| M6 | 0.69 | 0.48 | 5.5 | 52.7 | 14.84 |
+| M7 | 0.60 | 0.36 | 4.1 | 69.2 | 18.57 |
+| M8 | 0.91 | 0.83 | 6.3 | 35.9 | 10.99 |
 
 ---
 
-## Command Line Usage
+### **Output**
+
+| Fund Name | P1 | P2 | P3 | P4 | P5 | Score | Rank |
+|---|---|---|---|---|---|---|---|
+| M1 | 0.61 | 0.37 | 6.9 | 60.7 | 17.15 | 0.52 | 2 |
+| M2 | 0.68 | 0.46 | 4.5 | 66.1 | 17.94 | 0.52 | 3 |
+| M3 | 0.74 | 0.55 | 3.8 | 59.6 | 16.17 | 0.50 | 4 |
+| M4 | 0.71 | 0.50 | 6.1 | 44.2 | 12.88 | 0.45 | 7 |
+| M5 | 0.80 | 0.64 | 4.8 | 31.2 | 9.36  | 0.41 | 8 |
+| M6 | 0.69 | 0.48 | 5.5 | 52.7 | 14.84 | 0.47 | 6 |
+| M7 | 0.60 | 0.36 | 4.1 | 69.2 | 18.57 | 0.48 | 5 |
+| M8 | 0.91 | 0.83 | 6.3 | 35.9 | 10.99 | 0.55 | 1 |
+
+---
+
+##  Command Line Usage
 
 ### Install Dependencies
 
-### Run TOPSIS from CLI
+pip install -r requirements.txt
 
-### Optional: Save Output to a File
+### Run Through CLI
 
+topsis data.csv "1,2,3" "+,-,+"
 
-The output file contains TOPSIS scores and final rankings for each alternative.
+### Optional Output File
 
----
+topsis data.csv "1,2,3" "+,-,+" result.csv
 
-## Web Service (Flask API)
-
-A lightweight web API is provided to enable integration into web systems.  
-The user can:
-
-- upload CSV data
-- specify weights & impacts
-- receive scored and ranked outputs
-
-Useful for embedding TOPSIS in dashboards or backend decision systems.
 
 ---
 
-## Output Details
+##  Web Service
 
-Final results include:
+A Flask API is included for programmatic access.
 
-- original input criteria
-- computed TOPSIS score
-- rank assigned to each alternative
+Users can:
 
-> Higher TOPSIS score → better ranked option
-
----
-
-## Validation & Error Handling
-
-The implementation verifies:
-
-✔ equal number of weights and criteria  
-✔ valid `+`/`-` impact symbols  
-✔ numeric data entries  
-✔ proper CSV format  
+1.upload CSV  
+2.specify weights & impacts  
+3. receive ranked output  
 
 ---
 
-## Dependencies
+##  Dependencies
 
 - Python 3.x
-- pandas
 - numpy
-- flask (for API functionality)
+- pandas
+- flask
 
 ---
 
-## Conclusion
+##  Conclusion
 
-This project provides a clean and practical implementation of the TOPSIS method with both CLI and web capabilities. It is suitable for academic use, experimentation, and real decision-making scenarios.
-
-
+This project provides a clean and ready-to-use TOPSIS implementation supporting both CLI and web modes, suitable for real-world academic and analytical use.
 
